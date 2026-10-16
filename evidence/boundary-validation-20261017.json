@@ -1,0 +1,38 @@
+{
+  "date": "2026-10-17",
+  "reviewed_commit": "f25645a74c37e9e2af83e1d5fee162a3fcbaca07",
+  "scope": "Collector boundary fixes; retained evidence unchanged",
+  "test_count": 97,
+  "checks": [
+    {
+      "check": "smoke-pipeline",
+      "command": "python scripts/run_upgrade.py --smoke-only --output .cache/boundary-validation-20261017\\smoke",
+      "exit_code": 0,
+      "elapsed_seconds": 34.34
+    },
+    {
+      "check": "frozen-evidence",
+      "command": "python scripts/run_upgrade.py --verify-only",
+      "exit_code": 0,
+      "elapsed_seconds": 7.81
+    },
+    {
+      "check": "publication",
+      "command": "python scripts/check_publication.py",
+      "exit_code": 0,
+      "elapsed_seconds": 0.44
+    }
+  ],
+  "smoke_trajectories": 6,
+  "frozen_trajectories_verified": 120,
+  "frozen_evaluations_verified": 6000,
+  "original_trajectory_sha256_unchanged": true,
+  "source_sha256": {
+    "src/upgrade_study.py": "38f8f5f1950d21a0fcc382ed778aa4734f0c736a0779412c3520674ce9ce87ad",
+    "src/upgrade_report.py": "cc51c62d9431fcc4cdcada94d84f526d131bb45c8e5a8932e354704adf1bb5fe",
+    "tests/test_collector_boundaries.py": "d283338f98b698fab6d2b7e36724e86df38d7cb61bc13245510112f58f4b7dfd"
+  },
+  "new_full_replay": false,
+  "note": "Fresh smoke execution and frozen evidence audit; no new full replay or semantic review. Historical evidence/release-validation.json is preserved.",
+  "source_hash_format": "UTF-8 with LF line endings; same source text used by the recorded checks"
+}

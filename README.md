@@ -256,5 +256,5 @@ Implementation, analysis and writing were AI-assisted.
   [update paper (arXiv v1)](https://arxiv.org/html/2603.01349v1).
 - When using this study, cite the repository at the commit used, following
   [`CITATION.cff`](CITATION.cff), and cite the upstream PHYSBO work.
-- [Attribution details](CONTRIBUTIONS.md) · [Contributing](CONTRIBUTING.md) ·
-  [MIT license](LICENSE).
+- [Attribution details](CONTRIBUTIONS.md) · [Third-party notices](THIRD_PARTY_NOTICES.md) ·
+  [Contributing](CONTRIBUTING.md) · [MIT license](LICENSE).

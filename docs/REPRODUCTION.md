@@ -31,6 +31,10 @@ Smoke executes six small trajectories; a full campaign executes 120. Both contai
 only the controlled-operator and native-strategy blocks. Choose a fresh directory
 after changes to code, protocol, dependencies or machine. Original observations
 are not overwritten or resumed with the revised collector.
+A new output path must not exist or must be empty. Nonempty directories lacking
+`manifest.json`, and resumes missing metadata or collector snapshots, are rejected.
+Do not copy old `runs/` into a fresh campaign directory: that does not establish
+the acquisition environment. Preserve incomplete evidence and choose a new path.
 
 ## Rebuild current statistics and presentation
 

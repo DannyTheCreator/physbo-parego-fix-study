@@ -18,7 +18,7 @@ from scipy.stats import binomtest
 from benchmark import ROOT, write_json
 from multiobjective import candidate_grid, vlmop2
 from multiobjective_report import hypervolume_2d, pareto_front_2d
-from upgrade_study import audit, DEFAULT_OUT, manifest
+from upgrade_study import audit, decision_times, DEFAULT_OUT, manifest
 
 COLORS = {'Random': '#777777', 'HVPI': '#0072B2', 'ParEGO': '#D55E00', 'NDS': '#009E73',
           'ParEGO-min': '#0072B2', 'ParEGO-max': '#CC79A7'}
@@ -86,6 +86,7 @@ def load_runs(out):
 
 
 def measure(r):
+    h = decision_times(r)
     job = r['job']
     rewards = np.array([row['reward'] for row in r['rows']])
     full_hv = hypervolume_2d(vlmop2(candidate_grid(job['grid_points'])))
@@ -94,10 +95,7 @@ def measure(r):
     r['hv'] = hv
     r['quality_target'] = .9
     r['full_grid_hv'] = full_hv
-    r['h'] = np.array([row['decision_s'] for row in r['rows']])
-    # Standalone decision overhead uses the same availability boundary at every n.
-    # Keep full-run return overhead separately in the source record.
-    r['h'][-1] -= r['optimizer_tail_s']
+    r['h'] = h
     r['hit'] = first_hit(r['quality'], r['quality_target'], job['n_initial'])
     return r
 

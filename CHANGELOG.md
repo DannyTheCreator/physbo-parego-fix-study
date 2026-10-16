@@ -1,6 +1,24 @@
 # Change log
 
-## Unreleased - ParEGO fix and fixed-budget VLMOP2 study
+## Unreleased - Collector boundary checks (2026-10-17)
+
+Reject nonempty output directories without a manifest before creating or writing
+campaign files; reject incomplete resume metadata and missing collector snapshots.
+Validate candidate requests as nonempty integer vectors within the candidate
+pool before evaluation. Check both stored cumulative clocks and the report's
+result-availability clocks after subtracting final cleanup, allowing only
+floating-point subtraction roundoff. Add regression tests for these boundaries.
+
+Retained scientific observations and reported timings are unchanged. Restore the
+standard MIT license text, move dependency notices to a separate file, remove the
+obsolete external-dataset claim, and clarify historical versions and current CI.
+
+## 2026-10-16 - Current repository baseline (untagged)
+
+This independent repository began with new Git history, an expanded README and
+status badges. Commit attribution was corrected to `DannyTheCreator`; see
+[repository provenance](docs/REPOSITORY_PROVENANCE.md). No numbered release has
+been tagged in this repository.
 
 Study the controlled effect of the official ParEGO reduction correction and
 compare corrected native ParEGO with HVPI, NDS and Random at 50 evaluations.
@@ -15,7 +33,13 @@ all retained numerical exports. New repeat commands write separate outputs.
 Update citation metadata to the current title; use commit-specific citation
 until a new version is released. See docs/VALIDATION.md for current checks.
 
-## 1.0.3 - 2026-10-15
+## Predecessor repository history
+
+The versions below belong to the former `physbo-budget-benchmark` repository.
+They describe its broader historical scope, including work excluded from the
+current study. They are not releases or tags of `physbo-parego-fix-study`.
+
+### Predecessor 1.0.3 - 2026-10-15
 
 Recompute and verify every report JSON statistic and all CSV exports by
 unique keys, with strict numeric tolerance for cross-platform grid rounding.
@@ -29,7 +53,7 @@ environment changes, including CPU/Python/OS/BLAS/thread limits.
 Rebuild derived tables, figures and reports from frozen trajectories;
 the original 360 runs, timings, metadata and collector snapshot are preserved.
 
-## 1.0.2 - 2026-10-15
+### Predecessor 1.0.2 - 2026-10-15
 
 Clarify all five strategy evidence maps: separate discrete cost rows, label
 supported methods directly, show only present colors in the legend, and name
@@ -39,14 +63,14 @@ has only HVPI-colored cells (170), alongside 342 insufficient-evidence cells.
 Rebuild the report, PDF and executed notebook; verify all 2,560 map decisions
 from the original trajectories. Scientific results and timings are unchanged.
 
-## 1.0.1 - 2026-10-15
+### Predecessor 1.0.1 - 2026-10-15
 
 Use English throughout the documentation and executed demo. Consolidate the
 project around the report, protocol, reproduction guide and data description;
 remove internal review transcripts and duplicated publication notes. Original
 experimental observations and repeat evidence are unchanged.
 
-## 1.0.0 — 2026-10-15
+### Predecessor 1.0.0 — 2026-10-15
 
 First public research snapshot: 360 confirmation trajectories, version-aware
 ParEGO diagnostic, VLMOP2 strategy comparison, two-pool copper initialization

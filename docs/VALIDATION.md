@@ -1,5 +1,28 @@
 # Final two-experiment validation
 
+## Current collector boundary checks - 17 October 2026
+
+Review of commit `f25645a` identified three reproducible boundary defects:
+implicit adoption of orphaned runs, insufficient validation after removing final
+cleanup from cumulative clocks, and coercion of invalid candidate requests.
+The current collector rejects these cases. Audit and reporting share the same
+clock validation; candidate validation occurs before lookup or budget charging.
+
+The updated suite passed **97 tests**, including 40 new boundary regression cases.
+A fresh six-trajectory smoke campaign and its report completed successfully.
+Frozen verification reconstructed all statistics from **120 trajectories / 6,000
+evaluations**, including historical repeat and isolated-smoke checks. All 120
+original trajectory SHA-256 hashes are unchanged. No new full replay or semantic
+review is claimed for this patch. See the
+[current validation record](../evidence/boundary-validation-20261017.json).
+
+The independent repository's [CI for reviewed commit f25645a](https://github.com/DannyTheCreator/physbo-parego-fix-study/actions/runs/38928930874)
+succeeded on both Windows and Ubuntu. Checks for subsequent commits are visible
+in the [current CI workflow](https://github.com/DannyTheCreator/physbo-parego-fix-study/actions/workflows/check.yml).
+Those runs belong to this repository; the release metadata below is historical.
+
+## Historical two-experiment validation - 16 October 2026
+
 This record concerns the current ParEGO correction-effect and fixed-budget
 VLMOP2 study. Original reported observations are the retained 120 trajectories /
 6,000 evaluations. New replay checks are separate evidence and do not replace
@@ -24,7 +47,7 @@ success flags. Failure cases are covered by regression tests.
 
 Final clean-checkout, full-replay and test counts are recorded in
 [`evidence/release-validation.json`](../evidence/release-validation.json).
-The current and exact staged-tree export each passed **57 tests**. A complete
+The then-current tree and exact staged-tree export each passed **57 tests**. A complete
 fresh replay matched all **120 trajectories / 6,000 evaluations** in job identity,
 initialization, candidate sequence, rewards and weights. The clean export also
 passed a six-trajectory smoke pipeline, frozen-evidence verification, public-file

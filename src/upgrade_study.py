@@ -80,15 +80,26 @@ def manifest(smoke=False):
     return jobs
 
 
+def candidate_ids(actions, n_candidates):
+    """Validate IDs before indexing or charging any evaluation."""
+    ids = np.atleast_1d(actions)
+    if ids.ndim != 1 or not len(ids) or not np.issubdtype(ids.dtype, np.integer):
+        raise ValueError('candidate IDs must be a nonempty integer vector')
+    if np.any(ids < 0) or np.any(ids >= n_candidates):
+        raise IndexError('candidate ID outside pool')
+    return ids
+
+
 class TimedOracle:
-    def __init__(self, lookup, budget, started):
+    def __init__(self, lookup, budget, started, *, n_candidates):
         self._lookup, self.budget, self.started = lookup, budget, started
+        self.n_candidates = n_candidates
         self.query_s, self.rows, self.seen = 0., [], set()
 
     def __call__(self, actions):
         tick = time.perf_counter()
         h = tick - self.started - self.query_s
-        ids = np.atleast_1d(actions).astype(int)
+        ids = candidate_ids(actions, self.n_candidates)
         if len(self.rows) + len(ids) > self.budget or len(set(ids.tolist())) != len(ids):
             raise ValueError('invalid budget or duplicate batch')
         if any(int(i) in self.seen for i in ids):
@@ -148,7 +159,7 @@ def run_job(job):
     started = time.perf_counter()
     initial = initialize(x, job['n_initial'], job['seed'], job['init'])
     init_s = time.perf_counter() - started
-    oracle = TimedOracle(lookup, job['budget'], started)
+    oracle = TimedOracle(lookup, job['budget'], started, n_candidates=len(raw))
     try:
         weights = policy_search(job, x, oracle, initial)
     except Exception as exc:
@@ -167,13 +178,34 @@ def run_job(job):
     return result
 
 
+def decision_times(record):
+    """Validate raw clocks and return monotonic result-availability overhead."""
+    h = np.array([r['decision_s'] for r in record['rows']], dtype=float)
+    if not len(h) or not np.isfinite(h).all() or np.any(h < 0) or np.any(np.diff(h) < 0):
+        raise ValueError('invalid cumulative decision time')
+    total, tail = record['optimizer_total_s'], record['optimizer_tail_s']
+    if not np.isfinite(total) or not np.isclose(h[-1], total, rtol=1e-7, atol=0):
+        raise ValueError('invalid optimizer total time')
+    if not np.isfinite(tail) or not 0 <= tail <= h[-1]:
+        raise ValueError('invalid final tail time')
+    # The stored final value includes cleanup; reports exclude that cleanup.
+    h[-1] -= tail
+    previous = h[-2] if len(h) > 1 else 0.
+    tolerance = 8 * np.finfo(float).eps * max(abs(total), abs(tail))
+    if h[-1] < previous - tolerance:
+        raise ValueError('final tail time makes result-availability time decrease')
+    # Clamp only subtraction roundoff, never a materially decreasing clock.
+    h[-1] = max(h[-1], previous)
+    return h
+
+
 def audit(record):
     job, rows = record['job'], record['rows']
     if record['status'] != 'complete' or len(rows) != job['budget']:
         raise ValueError('incomplete record')
     x, source, labels, _ = inputs(job)
-    ids = np.array([r['candidate_id'] for r in rows])
-    if len(np.unique(ids)) != len(ids) or np.any(ids < 0) or np.any(ids >= len(x)):
+    ids = candidate_ids([r['candidate_id'] for r in rows], len(x))
+    if len(np.unique(ids)) != len(ids):
         raise ValueError('invalid candidate IDs')
     initial = initialize(x, job['n_initial'], job['seed'], job['init'])
     np.testing.assert_array_equal(ids[:len(initial)], initial)
@@ -181,14 +213,9 @@ def audit(record):
     np.testing.assert_array_equal(initial, record['initial_ids'])
     expected = vlmop2(candidate_grid(job['grid_points'])[ids])
     np.testing.assert_allclose([r['reward'] for r in rows], expected, rtol=1e-12, atol=1e-12)
-    h = np.array([r['decision_s'] for r in rows])
-    if not np.isfinite(h).all() or np.any(h < 0) or np.any(np.diff(h) < 0):
-        raise ValueError('invalid cumulative decision time')
+    decision_times(record)
     if [r['step'] for r in rows] != list(range(1, len(rows) + 1)):
         raise ValueError('invalid step sequence')
-    np.testing.assert_allclose(h[-1], record['optimizer_total_s'])
-    if not 0 <= record['optimizer_tail_s'] <= h[-1]:
-        raise ValueError('invalid final tail time')
     if job['block'] == 'version':
         calls = record['weights']
         expected_count = job['budget'] - job['n_initial'] + 1
@@ -219,16 +246,19 @@ def timing_environment_fingerprint(environment):
 def execute(out, smoke=False, blocks=None):
     out = Path(out)
     jobs = manifest(smoke)
+    manifest_path = out / 'manifest.json'
+    if out.exists() and not manifest_path.exists() and any(out.iterdir()):
+        raise ValueError('nonempty campaign has no manifest; use a new output directory')
     out.mkdir(parents=True, exist_ok=True)
-    (out / 'runs').mkdir(exist_ok=True)
     with threadpool_limits(limits=1):
         env = environment_metadata()
         fingerprint = timing_environment_fingerprint(env)
-        manifest_path = out / 'manifest.json'
         if manifest_path.exists():
             old = json.loads(manifest_path.read_text())
             if old != jobs:
                 raise ValueError('manifest changed; use a new output directory')
+            if not (out / 'metadata.json').is_file():
+                raise ValueError('campaign metadata missing; use a new output directory')
             metadata = json.loads((out / 'metadata.json').read_text())
             if metadata['environment']['package_versions'] != env['package_versions']:
                 raise ValueError('package versions changed; use a new output directory')
@@ -237,7 +267,8 @@ def execute(out, smoke=False, blocks=None):
                     or metadata.get('timing_environment_fingerprint', recorded) != recorded):
                 raise ValueError('timing environment changed (CPU/Python/OS/BLAS/threads); use a new output directory')
             for rel in ['src/upgrade_study.py', 'src/benchmark.py', 'src/multiobjective.py', 'docs/PROTOCOL.md']:
-                if (out / 'source_snapshot' / rel).read_bytes() != (ROOT / rel).read_bytes():
+                snapshot = out / 'source_snapshot' / rel
+                if not snapshot.is_file() or snapshot.read_bytes() != (ROOT / rel).read_bytes():
                     raise ValueError('implementation changed; use a new output directory')
         else:
             for rel in ['src/upgrade_study.py', 'src/benchmark.py', 'src/multiobjective.py', 'docs/PROTOCOL.md']:
@@ -250,6 +281,7 @@ def execute(out, smoke=False, blocks=None):
                        'task': 'VLMOP2', 'protocol': 'docs/PROTOCOL.md',
                        'timing': 'cumulative decision overhead, oracle/logging excluded; final tail charged',
                        'smoke': smoke})
+        (out / 'runs').mkdir(exist_ok=True)
         write_json(out / 'three_points.json', three_points())
         state = {}
         if (out / 'queue_state.json').exists():

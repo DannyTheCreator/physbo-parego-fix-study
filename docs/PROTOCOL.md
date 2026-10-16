@@ -70,6 +70,9 @@ policy construction, fitting, updating and selection; imports, shared input
 preprocessing, oracle/log construction, offline metrics and output I/O are excluded.
 Final cleanup is stored separately and excluded from the result-availability
 clock in summaries. The ten initial observations are available together at query ten.
+Audit and reporting both validate that subtracting final cleanup leaves a
+nonnegative, nondecreasing clock. Only machine-precision subtraction roundoff is
+clamped at the previous cumulative value; materially decreasing clocks are rejected.
 Algorithm time is separate from quality and is not converted to physical evaluation time.
 
 ## Provenance and resuming
@@ -79,10 +82,14 @@ note records the selection. Original collector snapshots are retained unmodified
 as historical provenance. They are not the current runnable source.
 
 New runs use the current source and protocol and must write to a fresh output
-directory. Resume validates job records, collector bytes, package versions and
+directory. A nonempty directory without a manifest is rejected before any writes;
+existing records are never implicitly imported or relabeled with a new environment.
+Resume requires metadata and collector snapshots, and validates job records, collector bytes, package versions and
 CPU/Python/OS/BLAS/thread identity. Legacy `pool_seed`/`pool_size` job keys are
 retained solely for compatibility with original trace identity; VLMOP2 candidates
 are always defined by `grid_points ** 2`, and these legacy keys select no data.
+Candidate requests must be nonempty integer vectors within that grid; invalid,
+repeated or overbudget requests fail before objective lookup or evaluation charging.
 
 Historical repeat and isolated-smoke metadata record the six retained VLMOP2
 conditions from the earlier checks; they are not presented as newly executed checks.
