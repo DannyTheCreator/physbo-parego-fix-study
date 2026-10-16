@@ -16,8 +16,12 @@ original trajectory SHA-256 hashes are unchanged. No new full replay or semantic
 review is claimed for this patch. See the
 [current validation record](../evidence/boundary-validation-20261017.json).
 
-The independent repository's [CI for reviewed commit f25645a](https://github.com/DannyTheCreator/physbo-parego-fix-study/actions/runs/38928930874)
-succeeded on both Windows and Ubuntu. Checks for subsequent commits are visible
+The boundary-fix source commit `3917905` passed [Windows and Ubuntu CI](https://github.com/DannyTheCreator/physbo-parego-fix-study/actions/runs/38932552773),
+including the 97 tests, six-condition smoke pipeline, frozen-result verification,
+notebook execution and PDF rebuilding. GitHub's license API now identifies the
+standard license file as MIT. The independent repository's
+[CI for reviewed baseline f25645a](https://github.com/DannyTheCreator/physbo-parego-fix-study/actions/runs/38928930874)
+also succeeded on both systems. Checks for subsequent commits are visible
 in the [current CI workflow](https://github.com/DannyTheCreator/physbo-parego-fix-study/actions/workflows/check.yml).
 Those runs belong to this repository; the release metadata below is historical.
 

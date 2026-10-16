@@ -34,5 +34,28 @@
   },
   "new_full_replay": false,
   "note": "Fresh smoke execution and frozen evidence audit; no new full replay or semantic review. Historical evidence/release-validation.json is preserved.",
-  "source_hash_format": "UTF-8 with LF line endings; same source text used by the recorded checks"
+  "source_hash_format": "UTF-8 with LF line endings; same source text used by the recorded checks",
+  "remote_ci": {
+    "source_commit": "391790530e44e92429073810929082ebe287a81e",
+    "runs": [
+      {
+        "url": "https://github.com/DannyTheCreator/physbo-parego-fix-study/actions/runs/38932552773",
+        "status": "completed",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "name": "check (ubuntu-latest)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "check (windows-latest)",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      }
+    ]
+  },
+  "github_license_detection": "MIT"
 }
