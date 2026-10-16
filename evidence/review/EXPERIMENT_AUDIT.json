@@ -1,0 +1,22 @@
+{
+  "audit_skill": "experiment-audit",
+  "date": "2026-10-16",
+  "verdict": "ERROR",
+  "reason_code": "reviewer_usage_limit_before_overall_verdict",
+  "reviewer_model": "gpt-6-astra",
+  "reviewer_reasoning": "ultra",
+  "review_independence": "same-family",
+  "acceptance_status": "unavailable",
+  "overall_verdict": null,
+  "summary": "The reviewer supplied partial observations, then hit a usage limit before delivering a complete integrity judgment. This is not a PASS.",
+  "partial_action_items": [
+    {
+      "finding": "Historical repeat/isolation verification trusted metadata flags rather than comparing actual evidence files.",
+      "executor_response": "Added actual evidence audits and scientific-record comparisons, with corruption regression tests. This response is deterministically tested but has not received a completed reviewer recheck."
+    },
+    {
+      "finding": "Citation metadata initially described the earlier released scope.",
+      "executor_response": "Updated title and abstract; removed unreleased version/date claims and instructed commit-specific citation."
+    }
+  ]
+}

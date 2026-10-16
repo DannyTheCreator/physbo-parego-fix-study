@@ -1,0 +1,25 @@
+name: VLMOP2 reproducibility checks
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  check:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - run: pip install -r requirements-report.txt
+      - run: python -m pytest -q
+      - run: python scripts/run_upgrade.py --smoke-only --output .cache/ci-vlmop2-two
+      - run: python scripts/run_upgrade.py --verify-only
+      - run: python scripts/check_publication.py
+      - run: python scripts/build_upgrade_demo.py
+      - run: python scripts/build_upgrade_report.py

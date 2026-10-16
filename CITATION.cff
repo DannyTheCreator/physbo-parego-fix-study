@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "Please cite this repository at the commit you use, and cite the upstream PHYSBO work."
+title: "ParEGO Implementation Fix and Fixed-Budget Performance"
+authors:
+  - family-names: "DannyTheCreator"
+url: "https://github.com/DannyTheCreator/physbo-parego-fix-study"
+repository-code: "https://github.com/DannyTheCreator/physbo-parego-fix-study"
+license: MIT
+type: software
+abstract: "Two VLMOP2 experiments using PHYSBO 3.2.1: the controlled effect of the ParEGO min/max implementation correction, and native ParEGO versus HVPI, NDS and Random at a fixed evaluation budget."

@@ -1,0 +1,18 @@
+{
+  "candidate_ids_rewards_initialization_weights_match": true,
+  "conditions": [
+    "version_0_random_ParEGO-max_25",
+    "version_0_random_ParEGO-min_25",
+    "multi_0_random_HVPI_25",
+    "multi_0_random_ParEGO_25",
+    "multi_0_random_NDS_25",
+    "multi_0_random_Random_25"
+  ],
+  "repeated_runs": "evidence/repeats",
+  "runs_checked": 6,
+  "seed_selection_rng": 20261015,
+  "selected_seed": 25,
+  "timing_match_required": false,
+  "publication_note": "The original local directory locator was replaced with a repository-relative evidence path; experiment values are unchanged.",
+  "scope_projection": "Six retained VLMOP2 conditions from the original 18-condition historical repeat; not a new repeat."
+}

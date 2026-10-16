@@ -1,0 +1,14 @@
+{
+  "isolated_environment": ".cache/clean-env (previously created separate pinned environment, reused)",
+  "package_versions_match": true,
+  "runs_compared": 6,
+  "same_ids_rewards_initialization_weights": true,
+  "smoke_runs_passed": 6,
+  "tests_passed": 22,
+  "timing_match_required": false,
+  "public_evidence": {
+    "working": "evidence/smoke-working",
+    "isolated": "evidence/smoke-isolated"
+  },
+  "scope_projection": "Six retained VLMOP2 records from each original 12-run historical smoke comparison; not a new comparison."
+}

@@ -1,0 +1,11 @@
+.venv/
+.cache/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+data/raw/
+.ipynb_checkpoints/
+figures/*smoke*/
+figures/upgrade-full/
+results/repro*/
+*_archive_*

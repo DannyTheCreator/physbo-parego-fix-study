@@ -1,0 +1,97 @@
+{
+  "date": "2026-10-16",
+  "platform": "Windows / Python 3.11",
+  "scope": "120 retained VLMOP2 trajectories / 6000 evaluations",
+  "installation": {
+    "clean_virtual_environment": true,
+    "system_site_packages": false,
+    "index": "official PyPI",
+    "pinned_experiment_and_report_install": "PASS",
+    "pip_check": "PASS"
+  },
+  "semantic_review": {
+    "overall_verdict": null,
+    "status": "unavailable",
+    "reason": "reviewer usage limit before completed verdict"
+  },
+  "checks": [
+    {
+      "check": "full-replay-comparison",
+      "exit_code": 0,
+      "elapsed_seconds": 7.3
+    },
+    {
+      "check": "final-tests",
+      "exit_code": 0,
+      "elapsed_seconds": 15.17
+    },
+    {
+      "check": "final-frozen-verification",
+      "exit_code": 0,
+      "elapsed_seconds": 5.42
+    },
+    {
+      "check": "final-notebook",
+      "exit_code": 0,
+      "elapsed_seconds": 0.17
+    },
+    {
+      "check": "final-report",
+      "exit_code": 0,
+      "elapsed_seconds": 1.12
+    },
+    {
+      "check": "final-document-check",
+      "exit_code": 0,
+      "elapsed_seconds": 0.49
+    },
+    {
+      "check": "checkout-tests",
+      "exit_code": 0,
+      "elapsed_seconds": 18.81
+    },
+    {
+      "check": "checkout-frozen-verification",
+      "exit_code": 0,
+      "elapsed_seconds": 6.48
+    },
+    {
+      "check": "checkout-smoke-pipeline",
+      "exit_code": 0,
+      "elapsed_seconds": 29.94
+    },
+    {
+      "check": "checkout-document-check",
+      "exit_code": 0,
+      "elapsed_seconds": 0.67
+    },
+    {
+      "check": "checkout-notebook",
+      "exit_code": 0,
+      "elapsed_seconds": 0.17
+    },
+    {
+      "check": "checkout-report",
+      "exit_code": 0,
+      "elapsed_seconds": 1.14
+    }
+  ],
+  "full_replay": {
+    "evaluations_compared": 6000,
+    "job_initialization_candidate_ids_rewards_weights_match": true,
+    "note": "Fresh replay verifies scientific observations only. Original timings remain the reported measurements.",
+    "runs_compared": 120,
+    "timing_equality_required": false
+  },
+  "exported_git_tree": "23efb53b96d06133e54b0ebf2675f7b6a3568d4d",
+  "clean_checkout": {
+    "status": "PASS",
+    "test_count": 57,
+    "smoke_trajectories": 6,
+    "notebook_cells": 4,
+    "pdf_rebuilt": true,
+    "runtime": "fresh isolated PyPI-installed environment; no source checkout on import path"
+  },
+  "remote_ci": "not_run_yet",
+  "note": "Export identity describes the staged source/evidence tree tested before this final validation summary was added. Final metadata does not change tested source. Replay clocks are excluded from comparison; historical reported timing is unchanged."
+}

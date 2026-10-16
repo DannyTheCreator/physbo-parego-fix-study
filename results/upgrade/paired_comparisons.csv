@@ -1,0 +1,2 @@
+comparison,pool_seed,method,evaluations,mean,low,high
+current min minus legacy max,,ParEGO,50,0.11740843403226087,0.08912773985809481,0.1468958421135614

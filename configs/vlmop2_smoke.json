@@ -1,0 +1,16 @@
+{
+  "name": "vlmop2_smoke",
+  "grid_points": 21,
+  "seeds": [0],
+  "methods": ["Random", "HVPI", "ParEGO", "NDS"],
+  "n_initial": 10,
+  "budget": 20,
+  "num_rand_basis": 0,
+  "interval": 10,
+  "threads": 1,
+  "parego_weight_min": 1.0,
+  "parego_weight_sum": 0.05,
+  "nds_rank_max": 10,
+  "reference_point": [-1.0, -1.0],
+  "output_dir": "results/vlmop2_smoke"
+}
