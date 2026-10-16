@@ -1,5 +1,11 @@
 # ParEGO Implementation Fix and Fixed-Budget Performance
 
+[![Checks](https://img.shields.io/github/actions/workflow/status/DannyTheCreator/physbo-parego-fix-study/check.yml?branch=main&label=Checks&logo=github)](https://github.com/DannyTheCreator/physbo-parego-fix-study/actions/workflows/check.yml)
+[![Python 3.11](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)](docs/REPRODUCTION.md)
+[![PHYSBO 3.2.1](https://img.shields.io/badge/PHYSBO-3.2.1-7B61FF)](https://github.com/issp-center-dev/PHYSBO/releases/tag/v3.2.1)
+[![Task VLMOP2](https://img.shields.io/badge/Task-VLMOP2-009688)](docs/PROTOCOL.md)
+[![Code MIT](https://img.shields.io/badge/Code-MIT-00ADD8)](LICENSE)
+
 An independent, reproducible study of **PHYSBO 3.2.1** on **VLMOP2**, a synthetic
 two-objective optimization task. The repository includes experiment code,
 per-evaluation trajectories, statistical summaries, figures, an executed notebook
