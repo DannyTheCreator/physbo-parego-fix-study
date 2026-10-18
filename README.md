@@ -222,10 +222,13 @@ See [reproduction instructions](docs/REPRODUCTION.md) for repeat checks and resu
 
 ## Validation, scope and provenance
 
-Recorded validation includes **57 passing tests** and a fresh full replay matching
-all **120 trajectories / 6,000 evaluations** in candidate sequence, initialization,
-rewards and weights. Replay clocks are excluded; the reported original timings
-are preserved. The [CI workflow](.github/workflows/check.yml) runs tests, a smoke
+Current validation includes **97 passing tests**, including 40 collector-boundary
+regression cases. The earlier full replay matched all **120 trajectories / 6,000
+evaluations** in candidate sequence, initialization, rewards and weights. Replay
+clocks are excluded; the reported original timings are preserved. The boundary
+fix was checked with a fresh six-trajectory smoke campaign and frozen-result
+verification; it does not claim a new full replay. The
+[CI workflow](.github/workflows/check.yml) runs tests, a smoke
 campaign, frozen-result verification, publication checks, notebook execution and
 PDF rebuilding on Windows and Ubuntu. See [validation](docs/VALIDATION.md) for the
 evidence and its limits. The attempted semantic review ended before an overall
